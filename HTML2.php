@@ -27,7 +27,7 @@ $hoy = date("F j, Y");
         }
         .azulSmall{
             position: absolute;
-            top: 10px;
+            top: 11px;
             right: 10px;
             width: 100px;
             height: auto;
