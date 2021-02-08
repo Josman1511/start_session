@@ -21,6 +21,7 @@ $hoy = date("F j, Y");
             font-size: 250%;
             color: white;
             text-align: left;
+            text-align: left;
         }
         .input{
             transition: width 0.4s ease-in-out;
