@@ -1,28 +1,17 @@
 <?php
+require "Connection.php";
 session_start();
 $_SESSION['msj'] = null;
 var_dump($_SESSION);
-$users = [
-    1 => [
-        'usuario' => 'Maillyn',
-        'contraseña' => 'mai123' 
-
-    ],
-    2 => [
-        'usuario' => 'Freddy',
-        'contraseña' => 'fred123' 
-
-    ],
-];
 if(isset($_POST['name']) && isset($_POST['password'])){
-    $currentUser = getUser($_POST['name'], $users);
+    $currentUser = getUser($_POST['name']);
+
         if(empty($currentUser)){
             $_SESSION['msj'] = "Su usuario no existe";
             header("location: index.php");
         }else{
-            var_dump($currentUser);
-            if(verifyPassword($_POST['password'], $currentUser['contraseña'])){
-                $_SESSION['usuario'] = $currentUser['usuario'];
+            if(verifyPassword($_POST['password'], $currentUser["password"])){
+               $_SESSION['usuario'] = $currentUser['username'];
                 header("location: HTML2.php");
             }else{
             $_SESSION['msj'] = "Su contraseña no coincide con el usuario";
@@ -30,21 +19,15 @@ if(isset($_POST['name']) && isset($_POST['password'])){
             }    
         }
 
-           
-           
-
-        
     }  
 
-function getUser(string $userName, array $users): array{
-    $resul = [];
-    foreach($users as $user){
-        if($userName == $user['usuario']){
-            $resul =  $user;
-            break;
-        }
-    }
-    return $resul;
+function getUser(string $userName): array{
+    $connection = new Connection();
+    $query = $connection->PDO->query("SELECT * FROM usuarios WHERE username='".  $userName. "'");
+    $usuario = $query->fetchAll(PDO::FETCH_ASSOC);
+    new Connection($userName);
+
+    return (empty($usuario)) ? $usuario : $usuario[0];
 }
 function verifyPassword(string $contraseñaEnviada, string $contraseaRegistrada): bool {
     /*

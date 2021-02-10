@@ -2,7 +2,6 @@
 session_start();
 if (isset($_SESSION['usuario'])) {
     header("location: HTML2.php");
-    var_dump($bdd);
 }
 ?>
 <!DOCTYPE html>
