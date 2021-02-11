@@ -124,6 +124,9 @@ if (isset($_SESSION['usuario'])) {
            value="Iniciar Sesion">
     <p class="mensaje_error"><?= $_SESSION ['msj'] ?? '' ?> </p>
 </form>
+<form action="registro.php" method="post">
+    <input style="position: absolute; top:375px; left: 70px;" type="submit" value="¿no tienes cuenta? registrate, ¡es gratis!">
+</form>
 <div><h3> El buen juicio proviene de la experiencia y la experiencia proviene del mal juicio”. </h3>
 </div>
 <img class="imagen" src="Logo_Azul.jpg">
