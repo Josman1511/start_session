@@ -11,7 +11,7 @@ if (isset($_POST['name']) && isset($_POST['password'])) {
         $_SESSION['msj'] = "Su usuario no existe";
         header("location: index.php");
     } else {
-        if (verifyPassword($_POST['password'], $currentUser["password"])) {
+        if (verifyPassword(password_hash($_POST['password'], PASSWORD_DEFAULT, [cost => 10]), $currentUser["password"])) {
             $_SESSION['usuario'] = $currentUser['username'];
             header("location: HTML2.php");
         } else {
