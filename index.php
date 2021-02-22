@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (isset($_SESSION['usuario'])) {
-    header("location: HTML2.php");
+    header("location: views/home.php");
 }
 
 ?>
@@ -40,6 +40,9 @@ if (isset($_SESSION['usuario'])) {
         }
 
         .mensaje_error {
+            position: absolute;
+            top: 370px;
+            left: 70px;
             font-family: sans-serif;
             color: #1981C9;
             padding: 5px;
@@ -64,7 +67,7 @@ if (isset($_SESSION['usuario'])) {
             border-top: 6px solid lightblue;
             position: absolute;
             top: 440px;
-            left: 5px;
+            left: 70px;
             color: white;
             width: 300px;
             height: 20px;
@@ -111,13 +114,23 @@ if (isset($_SESSION['usuario'])) {
             width: 200px;
             height: auto;
         }
+        .register{
+            font-family: sans-serif;
+            font-size 5px;
+            color: white;
+            position: absolute;
+            top: 13px;
+
+        }
     </style>
 </head>
 <body>
 <h1 class="titulo"> Inicio de sesion </h1>
-<h2 class="ingrDatos">Ingrese sus <span class="datos"> datos </span></h2>
-<form action="FacebookPirata.php" method="post">
-    <input style="position: absolute; top: 220px; left: 70px; " class="diseño_letras_input, input" type="text" required
+<h2 class="ingrDatos" >Ingrese sus <span class="datos"> datos </span></h2>
+<a  style=" font-size: 20px ; position:absolute; top: 30px ; right: 30px" class="register" href="controllers/addRegisterToBaseDatos.php">>>registrate aqui<<</a>
+<h3 style="right: 230px" class="register"> ¿No tienes una cuenta? </h3>
+<form action="controllers/start_session.php" method="post" autocomplete="off">
+    <input style="  position: absolute; top: 220px; left: 70px; " class="diseño_letras_input, input" type="text" required
            name="name" placeholder="Ingresa tu nombre"></br></br>
     <input style="position: absolute; top: 285px; left: 70px; " class="diseño_letras_input, input" type="password"
            required name="password" placeholder="Ingresa tu contraseña"></br></br>
@@ -125,14 +138,11 @@ if (isset($_SESSION['usuario'])) {
            value="Iniciar Sesion">
     <p class="mensaje_error"><?= $_SESSION ['msj'] ?? '' ?> </p>
 </form>
-<form action="addRegisterToBaseDatos.php" method="post">
-    <input style="position: absolute; top:375px; left: 70px;" type="submit" value="¿no tienes cuenta? registrate, ¡es gratis!">
-</form>
+
 <div><h3> El buen juicio proviene de la experiencia y la experiencia proviene del mal juicio”. </h3>
 </div>
-<img class="imagen" src="Logo_Azul.jpg">
-<img class="imgAlcaldia" src="../images/logo.png" alt="Alcaldia de Bogota">
-<img class="azulSmall" src="Logo_Azul%20-%20copia.jpg">
+<img class="imagen" src="images/Logo_Azul.jpg">
+<img class="imgAlcaldia" src="images/logo.png" alt="Alcaldia de Bogota">
 <!-- JavaScript Bundle with Popper -->
 <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>-->
 </body>

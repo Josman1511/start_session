@@ -70,23 +70,22 @@ session_start();
         background-color: #f4caca;
     }
 </style>
-<img class="fondo2" src="images/cuadrado2.jpg" alt="">
-<img class="fondo" src="images/cuadrado.jpg" alt="">
+<img class="fondo2" src="../images/cuadrado2.jpg" alt="">
+<img class="fondo" src="../images/cuadrado.jpg" alt="">
 <h2 class="letrasRegister">Ingrese los datos</h2>
-<?php if ($_SESSION["yaExisteThisUser"] !== null) : ?>
-    <p class="usuarioExiste"><?= $_SESSION["yaExisteThisUser"] ?></p>
+<?php if ($_SESSION["error"] !== null) : ?>
+    <p class="usuarioExiste"><?= $_SESSION["error"] ?></p>
 <?php endif; ?>
-<?php if($_SESSION['passwordMax8'] !== null) : ?>
-    <p class="usuarioExiste"> <?= $_SESSION['passwordMax8'] ?></p>
-<?php endif;?>
-<form action="addRegisterToBaseDatos.php" method="post">
+
+<form action="../controllers/addRegisterToBaseDatos.php" method="post" autocomplete="off">
     <input placeholder="Ingrese su nombre" class="input" style="position: absolute; top: 250px; left: 450px;"
            type="text" name="usernameRegister" required>
     <input placeholder="Ingrese su contraseña" class="input" style="position: absolute; top: 350px; left: 450px;"
            type="password" name="passwordRegister" required>
     <input class="submit" style="position: absolute; top: 450px; left: 450px;" type="submit" value="Registrarse">
+    <a style="position: absolute; top:0px; left: 0px;"href="../index.php">atras</a>
 </form>
-<img style="top: 250px" class="icon" src="images/userRegister.png" alt="">
-<img style="top: 355px; width: 30px; left: 455px;" class="icon" src="images/passwordRegister.png" alt="">
+<img style="top: 250px" class="icon" src="../images/userRegister.png" alt="">
+<img style="top: 355px; width: 30px; left: 455px;" class="icon" src="../images/passwordRegister.png" alt="">
 </body>
 </html>

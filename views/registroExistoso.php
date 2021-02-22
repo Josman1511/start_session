@@ -39,11 +39,11 @@
         padding: 12px 80px;
         box-sizing: content-box;
 </style>
-<img class="fondo2" src="images/cuadrado2.jpg" alt="">
-<img class="fondo" src="images/cuadrado.jpg" alt="">
+<img class="fondo2" src="../images/cuadrado2.jpg" alt="">
+<img class="fondo" src="../images/cuadrado.jpg" alt="">
 <p class="regExitoso">Registro exitoso</p>
-<form action="index.php" method="post">
-    <input class="submit" type="submit" value="Regresar a iniciar sesion">
+<form action="../index.php" method="post">
+    <input style="font-size: 30px; padding: 30px ; position: absolute; top: 300px; left: 500px;" class="submit" type="submit" value="Regresar a iniciar sesion">
 </form>
 
 </body>
