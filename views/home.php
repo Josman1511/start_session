@@ -1,71 +1,83 @@
 <?php
 session_start();
-if(isset($_SESSION['usuario'])){
-    $mensaje = "¿Que quieres usuario?";
-}else{
-header("location: index.php");
-die();
+require "../models/Connection.php";
+$connection = new Connection();
+$user = $connection->getUser($_SESSION['usuario']);
+$userName = $user['username'];
+if(!isset($_SESSION['usuario'])){
+    header("location: ../index.php");
+    die();
 }
-$hoy = date("F j, Y");            
 ?>
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <style>
-        .barra{
-            background-color: #1981C9;
-            font-size: 250%;
-            color: white;
-            text-align: left;
-        }
-        .input{
-            transition: width 0.4s ease-in-out;
-        }
-        .azulSmall{
-            position: absolute;
-            top: 11px;
-            right: 10px;
-            width: 100px;
-            height: auto;
-        }
-        .cuadro1{
-            width: 400px;
-            height: auto ;
-        }
-        .saldo{
-            color: white;
-            font-size: 30px;
-            position: absolute;
-            left: 160px;
-            top:460px;
-        }
-        .tienda{
-            color: white;
-            font-size: 30px;
-            position: absolute;
-            left: 790px;
-            top:460px;
-        }
-    </style>
+<meta charset="UTF-8">
+             <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+                         <meta http-equiv="X-UA-Compatible" content="ie=edge">
+             <title>Document</title>
+    <link rel="stylesheet" href="../public/css/bootstrap.min.css" crossorigin="anonymous">
+
 </head>
 <body>
-    <p class="barra"><?= $hoy. "/ Usuario: ".$_SESSION['usuario']?></p>
-    <form action="../controllers/close_session.php" method="post">
-    <input style="position: absolute; top:70px; right: 0px;" type="submit" value="Cerrar Sesion">
-    </form>
-    <img class="azulSmall" src="../images/Logo_Azul%20-%20copia.jpg">
-    <img style="position: absolute; top:130px; left: 140px;" class="cuadro1" src="../images/cuadrado2.jpg" alt="">
-    <img style="position: absolute; top:120px; left: 150px;" class="cuadro1" src="../images/cuadrado.jpg" alt="">
-    <a title="banco" href="banco.php"><img style="width:400px; height:auto; position: absolute; top:120px; left: 150px;" src="../images/saldo.jpg" alt="banco">
-    <img style="position: absolute; top:130px; left: 760px;" class="cuadro1" src="../images/cuadrado2.jpg" alt="">
-    <img style="position: absolute; top:120px; left: 750px;" class="cuadro1" src="../images/cuadrado.jpg" alt="">
-    <a title="tienda" href="tienda.php"><img style="width:440px; height:auto; position: absolute; top:70px; left: 725px;" src="../images/tienda.png" alt="tienda">
-    <a class="saldo" href="banco.php">Consultar saldo en la tienda</a>
-    <a class="tienda" href="tienda.php"> Ver articulos de la tienda</a>
+<!--NAVBAR-->
 
+        <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
+            <div class="container-fluid">
+                <a class="navbar-brand" href=""><img src="../images/HeroStore.png" alt="" width="70"></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" >Usuario: <?=$userName?></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="myProducts.php">Ver mis articulos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="historyTransactions.php">Ver historial de transacciones</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="../controllers/close_session.php">Cerrar sesion</a>
+                        </li>
+                    </ul>
+                    <span class="navbar-text">
+      </span>
+                </div>
+            </div>
+        </nav>
+
+
+    <!--TARJETAS -->
+<div class="container-fluid">
+<div class="row mt-sm-4 m-md-3">
+    <div class="col-md-6">
+        <div class="card text-center">
+            <img src="../images/bancoB.jpg" class="card-img-top" alt="..." >
+            <div class="card-body">
+                <h5 class="card-title">BANCO</h5>
+                <p class="card-text">Revisa tus transacciones y has tus depositos a la tienda!</p>
+                <a href="banco.php" class="btn btn-danger ">Ir al Banco</a>
+            </div>
+        </div>
+        </div>
+        <div class="col-md-6 align-content-center">
+            <div class="card text-center" >
+                <img src="../images/HeroStore2%20-%20copia.png"  class="card-img-top" alt="..." >
+                <div class="card-body">
+                    <h5 class="card-title">TIENDA</h5>
+                    <p class="card-text">Ve nuestros articulos y realiza tus compras, tenemos lo mejor en tecnologia!</p>
+                    <a href="tienda.php" class="btn btn-danger">Ir a la Tienda</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--PRODUCTOS-->
+<script src="../public/js/bootstrap.esm.js"></script>
+<script src="../public/js/bootstrap.min.js"></script>
 </body>
 </html>

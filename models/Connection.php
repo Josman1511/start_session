@@ -12,7 +12,9 @@ class Connection
 
     public function getUser(string $userName): array
     {
-        $query = $this->PDO->query("SELECT * FROM usuarios WHERE username='" . $userName . "'");
+        $query = $this->PDO->prepare("SELECT * FROM usuarios WHERE username= :userName");
+        $query->bindParam('userName', $userName);
+        $query->execute();
         $usuario = $query->fetchAll(PDO::FETCH_ASSOC);
         return (empty($usuario)) ? $usuario : $usuario[0];
     }

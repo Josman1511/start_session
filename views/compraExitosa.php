@@ -9,6 +9,7 @@ $connection = new Connection();
 $user = $connection->getUser($_SESSION['usuario']);
 $saldoUser = number_format($user['saldo'], 2, ',', '.');
 $userName = $user['username'];
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -21,6 +22,9 @@ $userName = $user['username'];
 </head>
 <body>
 <style>
+    *{
+        font-weight: normal;
+    }
     .username{
         background-color: #1981C9;
         font-size: 50px;

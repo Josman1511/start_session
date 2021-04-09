@@ -13,17 +13,18 @@ if (isset($_POST["usernameRegister"], $_POST["passwordRegister"])) {
             header("location: ../views/registro.php");
         } else {
             $passwordEncrip = password_hash($passwordRegis, PASSWORD_DEFAULT, [cost => 5]);
-            $registro = "INSERT INTO usuarios (id, username, password) VALUES ( '0',  '$nameRegis','$passwordEncrip')";
-            $conexion->getPDO()->query($registro);
+            $consulta = "INSERT INTO usuarios (username, password) VALUES (:username, :password)";
+            $registro = $conexion->getPDO()->prepare($consulta);
+            $registro->bindParam('username', $nameRegis);
+            $registro->bindParam('password', $passwordEncrip);
+            $registro->execute();
             header("location: ../views/registroExistoso.php");
         }
     } else {
         $_SESSION["error"] = "Este usuario ya existe";
-        header("location: ../views/registro.php");
+        header("location: ../views/registro2.php");
     }
 } else {
-    header("location: ../views/registro.php");
+    header("location: ../views/registro2.php");
 }
-
-
 ?>
