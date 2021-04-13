@@ -2,9 +2,13 @@
 session_start();
 require_once "../models/Carrito.php";
 require_once "../models/Connection.php";
-$productsCarrito = new Carrito();
-$products = $productsCarrito->getCurrentArticules($_SESSION['id']);
-
+$carrito = new Carrito();
+$connection = new Connection();
+$user = $connection->getUser($_SESSION['usuario']);
+$userBalance = number_format($user['saldo'],2,",", ".");
+$products = $carrito->getCurrentArticules($_SESSION['id']);
+$sumTotal = $carrito->getTotalPrice($_SESSION['id']);
+$precioTotal = "$ ". number_format($sumTotal,2, ",", ".");
 ?>
 <!doctype html>
 <html lang="en">
@@ -33,6 +37,8 @@ $products = $productsCarrito->getCurrentArticules($_SESSION['id']);
                 <tr style="font-size: 25px">
                     <th>Producto</th>
                     <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Total</th>
 
                 </tr>
                 <?php
@@ -49,12 +55,12 @@ $products = $productsCarrito->getCurrentArticules($_SESSION['id']);
                                 <button type="button" class="btn btn-outline-dark"
                                         onclick="subAmountProduct(<?= $inCarrito['id'] ?>)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                         class="bi bi-dash-circle" viewBox="0 0 16 16">
+                                         class="bi bi-dash-circle" viewBox="0 0 16 16"> 
                                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                         <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
                                     </svg>
                                 </button>
-                                <button type="button" id="amountProduct" class="btn btn-outline-dark"
+                                <button type="button" id="amountProduct<?=$inCarrito['id']?>" class="btn btn-outline-dark"
                                         disabled><?= $inCarrito['amount'] ?></button>
                                 <button type="button" class="btn btn-outline-dark"
                                         onclick="plusAmountProduct(<?= $inCarrito['id'] ?>)">
@@ -66,6 +72,7 @@ $products = $productsCarrito->getCurrentArticules($_SESSION['id']);
                                 </button>
                             </div>
                         </th>
+                        <th id="precioTotal<?=$inCarrito['id']?>">$ <?= number_format($inCarrito['precio_total'], 2, ",", ".") ?></th>
                         <th>
                             <button type="submit" class="btn"
                                     onclick="deleteRow(this, <?= $inCarrito['id'] ?>)">
@@ -83,10 +90,10 @@ $products = $productsCarrito->getCurrentArticules($_SESSION['id']);
             </table>
         </div>
         <div class="col-md-4">
-            <p>Su saldo actual es: </p>
+            <p>Su saldo actual es: $ <?=$userBalance?> </p>
             <p style="color: #bdbdbd; font-size: 14px ">Si gustas puedes seguir añadiendo articulos a tu carrito,
                 tenemos los mejores articulos al mejor precio.</p>
-            <h1 class="text-center" style="background-color: #f9f9f9">Total: 2000</h1>
+            <h1 class="text-center" style="background-color: #f9f9f9; font-weight: bold" id="total">Total: <span style="font-weight: normal; color: #c62d2d"><?=$precioTotal?></span></h1>
             <div class="d-grid gap-2 m-md-5">
                 <button type="button" style="font-size: 25px" class="btn btn-danger">Realizar compra
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" fill="currentColor" class="bi bi-cash-stack"
@@ -132,6 +139,7 @@ $products = $productsCarrito->getCurrentArticules($_SESSION['id']);
                     if ('exito' == data) {
                         var d = row.parentNode.parentNode.rowIndex;
                         document.getElementById("dsTable").deleteRow(d);
+                        sumTotal();
 
                     } else if (data == 'error') {
                         alert('Error');
@@ -142,26 +150,46 @@ $products = $productsCarrito->getCurrentArticules($_SESSION['id']);
 
     }
 
-</script>
-<script type="text/javascript">
     function plusAmountProduct(productId) {
         $.ajax(
             {
                 url: '../controllers/changeAmountProductCarrito.php?product_id=' + productId + '&subOrPlus=2',
                 success: function (data) {
-                    $("#amountProduct").html(data)
+                    $("#amountProduct" + productId).html(data);
+                    changeProductPrecioTotal(productId);
+                    sumTotal();
                 }
             }
         );
     }
-</script>
-<script type="text/javascript">
     function subAmountProduct(productId) {
         $.ajax(
             {
                 url: '../controllers/changeAmountProductCarrito.php?product_id=' + productId + '&subOrPlus=1',
                 success: function (data) {
-                    $("#amountProduct").html(data)
+                    $("#amountProduct" + productId).html(data);
+                    changeProductPrecioTotal(productId);
+                    sumTotal();
+                }
+            }
+        );
+    }
+    function changeProductPrecioTotal(productId){
+        $.ajax(
+            {
+                url: '../controllers/changeProductPrecioTotalCarrito.php?product_id=' + productId,
+                success: function (data){
+                    $("#precioTotal" + productId).html("$ " + data);
+                }
+            }
+        );
+    }
+    function sumTotal(){
+        $.ajax(
+            {
+                url: '../controllers/sumProductsPrecioTotal.php',
+                success: function (data){
+                    $("#total").html("Total: $ " + data )
                 }
             }
         );
