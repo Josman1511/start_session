@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once "../models/Carrito.php";
 require_once "../models/Connection.php";
 $carrito = new Carrito();
@@ -95,13 +94,13 @@ $precioTotal = "$ ". number_format($sumTotal,2, ",", ".");
                 tenemos los mejores articulos al mejor precio.</p>
             <h1 class="text-center" style="background-color: #f9f9f9; font-weight: bold" id="total">Total: <span style="font-weight: normal; color: #c62d2d"><?=$precioTotal?></span></h1>
             <div class="d-grid gap-2 m-md-5">
-                <button type="button" style="font-size: 25px" class="btn btn-danger">Realizar compra
+                <a href="../controllers/purchaseCarrito.php" type="button" style="font-size: 25px" class="btn btn-danger">Realizar compra
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" fill="currentColor" class="bi bi-cash-stack"
                          viewBox="0 0 16 16">
                         <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1H1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
                         <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V5zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2H3z"/>
                     </svg>
-                </button>
+                </a>
                 <a type="button" href="tienda.php" style="font-size: 20px" class="mt-md-3 btn btn-outline-secondary">Seguir
                     comprando
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" fill="currentColor" class="bi bi-bag-plus"
@@ -140,7 +139,6 @@ $precioTotal = "$ ". number_format($sumTotal,2, ",", ".");
                         var d = row.parentNode.parentNode.rowIndex;
                         document.getElementById("dsTable").deleteRow(d);
                         sumTotal();
-
                     } else if (data == 'error') {
                         alert('Error');
                     }
@@ -189,7 +187,7 @@ $precioTotal = "$ ". number_format($sumTotal,2, ",", ".");
             {
                 url: '../controllers/sumProductsPrecioTotal.php',
                 success: function (data){
-                    $("#total").html("Total: $ " + data )
+                    $("#total").html("Total" + data )
                 }
             }
         );

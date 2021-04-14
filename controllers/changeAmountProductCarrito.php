@@ -1,6 +1,5 @@
 <?php
 require_once "../models/Carrito.php";
-session_start();
 $carrito = new Carrito();
 $product = $carrito->getCurrentProduct($_GET['product_id']);
 $productAmount = $product['amount'];

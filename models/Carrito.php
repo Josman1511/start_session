@@ -1,6 +1,7 @@
 <?php
 require_once "Product.php";
 require_once "Connection.php";
+require_once "Saldo.php";
 class Carrito
 {
     public function addToCarrito(int $ProductId, int $userId)
@@ -100,6 +101,14 @@ class Carrito
         $sum = $query->fetchAll(PDO::FETCH_ASSOC);
         $precioTotal = $sum[0]['sumPrecioTotal'];
         return (empty($precioTotal) ? "0" : $precioTotal);
+    }
+    public function makePurchase (int $userId){
+        $connection = new Connection();
+        $user = $connection->getUser($_SESSION['usuario']);
+        $userSaldo = $user['saldo'];
+        $objectSaldo = new Saldo();
+        $purchasePrice = $this->getTotalPrice($userId);
+        $objectSaldo->compra($userSaldo, $purchasePrice);
     }
 //public function PurchaseFromCarrito (int $productId, int $userId){
 //    $product = $this->getCurrentArticules($userId);
