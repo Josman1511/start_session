@@ -1,22 +1,22 @@
 <?php
 require_once "Connection.php";
 session_start();
-class Saldo
+class Balance
 {
-    public function deposito(float $deposito): float{
+    public function deposit(float $deposit): float{
         $connection = new Connection();
         $user = $connection->getUser($_SESSION['usuario']);
         $saldo = $user['saldo'];
         $id = $user['id'];
-        $suma = $saldo + $deposito;
-        $consulta = "UPDATE usuarios SET saldo = :saldo WHERE id = :id";
-        $deposito = $connection->getPDO()->prepare($consulta);
-        $deposito->bindParam(':saldo',$suma);
-        $deposito->bindParam(':id',$id);
-        $deposito->execute();
-        return $suma;
+        $sum = $saldo + $deposit;
+        $query = "UPDATE usuarios SET saldo = :saldo WHERE id = :id";
+        $deposit = $connection->getPDO()->prepare($query);
+        $deposit->bindParam(':saldo',$sum);
+        $deposit->bindParam(':id',$id);
+        $deposit->execute();
+        return $sum;
     }
-    public function compra(float $currentUserSaldo, float $productPrecio): float{
+    public function purchase(float $currentUserSaldo, float $productPrecio): float{
         $connection = new Connection();
         $usuario = $connection->getUser($_SESSION['usuario']);
         $id = $usuario['id'];

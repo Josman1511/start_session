@@ -3,7 +3,7 @@ session_start();
 require "../models/Connection.php";
 $connection = new Connection();
 $user = $connection->getUser($_SESSION['usuario']);
-$userSaldo = number_format($user['saldo'], 2, ',', '.');
+$userBalance = number_format($user['saldo'], 2, ',', '.');
 ?>
 <!doctype html>
 <html lang="en">
@@ -22,9 +22,9 @@ $userSaldo = number_format($user['saldo'], 2, ',', '.');
         <div class=" col-md-8 mt-md-5">
             <div class="alert alert-danger" role="alert">
                 <h1 class=" text-center alert-danger">Deposito Exitoso</h1>
-                <h3 style="font-weight: normal" class="text-center">Su deposito ha sido un completo exito ahora usted cuenta con <?= $userSaldo ?>$ de saldo.</h3>
+                <h3 style="font-weight: normal" class="text-center">Su deposito ha sido un completo exito ahora usted cuenta con <?= $userBalance ?>$ de saldo.</h3>
                 <hr>
-                <h4 class="mb-0 text-center"><a href="banco.php">Volver al banco</a></h4>
+                <h4 class="mb-0 text-center"><a href="bank.php">Volver al banco</a></h4>
             </div>
         </div>
     </div>

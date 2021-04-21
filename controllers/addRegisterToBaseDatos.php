@@ -22,9 +22,9 @@ if (isset($_POST["usernameRegister"], $_POST["passwordRegister"])) {
         }
     } else {
         $_SESSION["error"] = "Este usuario ya existe";
-        header("location: ../views/registro2.php");
+        header("location: ../views/register.php");
     }
 } else {
-    header("location: ../views/registro2.php");
+    header("location: ../views/register.php");
 }
 ?>

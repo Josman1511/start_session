@@ -67,18 +67,6 @@ $userName = $user['username']
     <div class="col-sm-4"></div>
 </div>
 </div>
-<!--
-<h2 class="cuanto">Cuanto desea depositar a </h2>
-<h1 class="usuario"></h1>
-<form action="../controllers/depositoLogica.php" method="post" autocomplete="off">
-    <input style="position: absolute; top: 400px; type=" class="depositar" type="text" name="comentario" placeholder="Comentario" required>
-    <input class="depositar" type="number" min="0" name="dinero" placeholder="Monto" required>
-    <input class="submit" type="submit" value="Depositar" >
-</form>
-<img class="dollar" src="../images/dollar.png" alt="">
-<img class="azulLogo" src="../images/Logo_Azul.jpg" alt="">
-<img class="comentario" src="../images/commit.png" alt="">
--->
 <script src="../public/js/bootstrap.esm.js"></script>
 <script src="../public/js/bootstrap.min.js"></script>
 </body>

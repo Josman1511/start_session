@@ -1,13 +1,13 @@
 <?php
-require_once "../models/Carrito.php";
+require_once "../models/ShoppingCar.php";
 require_once "../models/Connection.php";
-$carrito = new Carrito();
+$shoppingCar = new ShoppingCar();
 $connection = new Connection();
 $user = $connection->getUser($_SESSION['usuario']);
 $userBalance = number_format($user['saldo'],2,",", ".");
-$products = $carrito->getCurrentArticules($_SESSION['id']);
-$sumTotal = $carrito->getTotalPrice($_SESSION['id']);
-$precioTotal = "$ ". number_format($sumTotal,2, ",", ".");
+$products = $shoppingCar->getCurrentArticules($_SESSION['id']);
+$totalSum = $shoppingCar->getTotalPrice($_SESSION['id']);
+$totalPrice = "$ ". number_format($totalSum,2, ",", ".");
 ?>
 <!doctype html>
 <html lang="en">
@@ -43,26 +43,26 @@ $precioTotal = "$ ". number_format($sumTotal,2, ",", ".");
                 <?php
                 foreach ($products
 
-                         as $inCarrito) :
+                         as $inShoppingCar) :
                     ?>
                     <tr style="font-size: 20px;">
-                        <th style=" font-weight: normal"> <?= $inCarrito['product'] ?></th>
+                        <th style=" font-weight: normal"> <?= $inShoppingCar['product'] ?></th>
                         <th style=" font-weight: normal" class="text-danger" >
-                            $ <?= number_format($inCarrito['purchase'], 2, ",", ".") ?></th>
+                            $ <?= number_format($inShoppingCar['purchase'], 2, ",", ".") ?></th>
                         <th>
                             <div class="btn-group" role="group" aria-label="Basic outlined example">
                                 <button type="button" class="btn btn-outline-dark"
-                                        onclick="subAmountProduct(<?= $inCarrito['id'] ?>)">
+                                        onclick="subAmountProduct(<?= $inShoppingCar['id'] ?>)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                          class="bi bi-dash-circle" viewBox="0 0 16 16"> 
                                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
                                         <path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/>
                                     </svg>
                                 </button>
-                                <button type="button" id="amountProduct<?=$inCarrito['id']?>" class="btn btn-outline-dark"
-                                        disabled><?= $inCarrito['amount'] ?></button>
+                                <button type="button" id="amountProduct<?=$inShoppingCar['id']?>" class="btn btn-outline-dark"
+                                        disabled><?= $inShoppingCar['amount'] ?></button>
                                 <button type="button" class="btn btn-outline-dark"
-                                        onclick="plusAmountProduct(<?= $inCarrito['id'] ?>)">
+                                        onclick="plusAmountProduct(<?= $inShoppingCar['id'] ?>)">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                          class="bi bi-plus-circle" viewBox="0 0 16 16">
                                         <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -71,10 +71,10 @@ $precioTotal = "$ ". number_format($sumTotal,2, ",", ".");
                                 </button>
                             </div>
                         </th>
-                        <th id="precioTotal<?=$inCarrito['id']?>">$ <?= number_format($inCarrito['precio_total'], 2, ",", ".") ?></th>
+                        <th id="precioTotal<?=$inShoppingCar['id']?>">$ <?= number_format($inShoppingCar['precio_total'], 2, ",", ".") ?></th>
                         <th>
                             <button type="submit" class="btn"
-                                    onclick="deleteRow(this, <?= $inCarrito['id'] ?>)">
+                                    onclick="deleteRow(this, <?= $inShoppingCar['id'] ?>)">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="currentColor"
                                      class="bi bi-x-circle" viewBox="0 0 16 16">
                                     <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -92,16 +92,16 @@ $precioTotal = "$ ". number_format($sumTotal,2, ",", ".");
             <p>Su saldo actual es: $ <?=$userBalance?> </p>
             <p style="color: #bdbdbd; font-size: 14px ">Si gustas puedes seguir añadiendo articulos a tu carrito,
                 tenemos los mejores articulos al mejor precio.</p>
-            <h1 class="text-center" style="background-color: #f9f9f9; font-weight: bold" id="total">Total: <span style="font-weight: normal; color: #c62d2d"><?=$precioTotal?></span></h1>
+            <h1 class="text-center" style="background-color: #f9f9f9; font-weight: bold" id="total">Total: <span style="font-weight: normal; color: #c62d2d"><?=$totalPrice?></span></h1>
             <div class="d-grid gap-2 m-md-5">
-                <a href="../controllers/purchaseCarrito.php" type="button" style="font-size: 25px" class="btn btn-danger">Realizar compra
+                <a href="../controllers/purchaseShoppingCar.php" type="button" style="font-size: 25px" class="btn btn-danger">Realizar compra
                     <svg xmlns="http://www.w3.org/2000/svg" width="26" fill="currentColor" class="bi bi-cash-stack"
                          viewBox="0 0 16 16">
                         <path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1H1zm7 8a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/>
                         <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V5zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2H3z"/>
                     </svg>
                 </a>
-                <a type="button" href="tienda.php" style="font-size: 20px" class="mt-md-3 btn btn-outline-secondary">Seguir
+                <a type="button" href="store.php" style="font-size: 20px" class="mt-md-3 btn btn-outline-secondary">Seguir
                     comprando
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" fill="currentColor" class="bi bi-bag-plus"
                          viewBox="0 0 16 16">
@@ -110,7 +110,7 @@ $precioTotal = "$ ". number_format($sumTotal,2, ",", ".");
                         <path d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1zm3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4h-3.5zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V5z"/>
                     </svg>
                 </a>
-                <a type="button" href="../controllers/deleteAllFromCarrito.php" style="font-size: 20px"
+                <a type="button" href="../controllers/deleteAllFromShoppingCar.php" style="font-size: 20px"
                    class=" mt-md-3 btn btn-outline-dark">Vaciar Carrito
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" fill="currentColor" class="bi bi-cart-x"
                          viewBox="0 0 16 16">

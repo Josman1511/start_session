@@ -7,8 +7,8 @@ class Product
     {
         $connection = new Connection();
         $query = $connection->getPDO()->query("SELECT clases.clase, articulos.id, articulo, precio, image FROM articulos INNER JOIN clases ON articulos.clase_id = clases.id");
-        $articulo = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $articulo;
+        $product = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $product;
     }
 
     public function currentProduct(int $currentId): array

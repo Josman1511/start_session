@@ -12,7 +12,7 @@ if (isset($_POST['name']) && isset($_POST['password'])) {
         header("location: ../index.php");
     } else {
         if (verifyPassword($_POST['password'], $currentUser["password"])) {
-            $_SESSION['usuario'] = $currentUser['username'];
+            $_SESSION['user'] = $currentUser['username'];
             $_SESSION['id'] = $currentUser['id'];
             header("location: ../views/home.php");
         } else {
@@ -23,10 +23,10 @@ if (isset($_POST['name']) && isset($_POST['password'])) {
 
 
 }
-function verifyPassword(string $contraseñaEnviada, string $contraseaRegistrada): bool
+function verifyPassword(string $passwordSent, string $passwordRegistered): bool
 {
 
-    if(password_verify($contraseñaEnviada, $contraseaRegistrada)){
+    if(password_verify($passwordSent, $passwordRegistered)){
         $verifyC = true;
     }else {
         $verifyC = false;

@@ -15,8 +15,8 @@ class Connection
         $query = $this->PDO->prepare("SELECT * FROM usuarios WHERE username= :userName");
         $query->bindParam('userName', $userName);
         $query->execute();
-        $usuario = $query->fetchAll(PDO::FETCH_ASSOC);
-        return (empty($usuario)) ? $usuario : $usuario[0];
+        $user = $query->fetchAll(PDO::FETCH_ASSOC);
+        return (empty($user)) ? $user : $user[0];
     }
 
     /**

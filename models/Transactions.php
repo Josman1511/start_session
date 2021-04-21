@@ -14,31 +14,31 @@ class Transactions
         return $transactions;
     }
 
-    public function addNewDeposit(float $monto, string $comentario, float $balance, int $user_id)
+    public function addNewDeposit(float $amountMoney, string $commit, float $balance, int $user_id)
     {
-        $this->addNewTransaction('DEPOSITO', $monto, $comentario, $balance, $user_id, null);
+        $this->addNewTransaction('DEPOSITO', $amountMoney, $commit, $balance, $user_id, null);
     }
 
-    public function addNewPurchase(float $monto, string $comentario, float $balance, int $user_id, int $product_id)
+    public function addNewPurchase(float $amountMoney, string $commit, float $balance, int $user_id, int $product_id)
     {
-        $this->addNewTransaction('COMPRA', $monto, $comentario, $balance, $user_id, $product_id);
+        $this->addNewTransaction('COMPRA', $amountMoney, $commit, $balance, $user_id, $product_id);
     }
 
-    private function addNewTransaction(string $clase, float $monto, string $comentario, float $balance, int $user_id, $product_id)
+    private function addNewTransaction(string $class, float $amountMoney, string $commit, float $balance, int $user_id, $product_id)
     {
         $connection = new Connection();
         $consulta = 'INSERT INTO transacciones (clase, monto, comentario, balance, user_id, product_id) VALUES (:clase, :monto, :comentario, :balance, :user_id, :product_id)';
         $deposito = $connection->getPDO()->prepare($consulta);
-        $deposito->bindParam('clase', $clase);
-        $deposito->bindParam('monto', $monto);
-        $deposito->bindParam('comentario', $comentario);
+        $deposito->bindParam('clase', $class);
+        $deposito->bindParam('monto', $amountMoney);
+        $deposito->bindParam('comentario', $commit);
         $deposito->bindParam('balance', $balance);
         $deposito->bindParam('user_id', $user_id);
         $deposito->bindParam('product_id', $product_id);
         $deposito->execute();
     }
 
-    public function getCurrentUserCompras(int $currentUserId): array
+    public function getCurrentUserPurchases(int $currentUserId): array
     {
         return $this->getCurrentUserTrasactionByClass($currentUserId, 'COMPRA');
     }
@@ -48,12 +48,12 @@ class Transactions
         return $this->getCurrentUserTrasactionByClass($currentUserId, 'DEPOSITO');
     }
 
-    private function getCurrentUserTrasactionByClass(int $currentUserId, string $clase)
+    private function getCurrentUserTrasactionByClass(int $currentUserId, string $class)
     {
         $connection = new Connection();
         $query = $connection->getPDO()->prepare(
             "SELECT ar.image, ar.articulo, tr.id, tr.clase, tr.monto, tr.comentario, tr.balance, tr.product_id FROM transacciones AS tr LEFT JOIN articulos AS ar ON tr.product_id = ar.id WHERE clase = :clase AND user_id =  :user_id");
-        $query->bindParam('clase', $clase);
+        $query->bindParam('clase', $class);
         $query->bindParam('user_id', $currentUserId);
         $query->execute();
         $transactions = $query->fetchAll(PDO::FETCH_ASSOC);

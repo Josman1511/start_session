@@ -16,11 +16,6 @@ $userName = $user['username'];
     <link rel="stylesheet" href="../public/css/bootstrap.min.css" crossorigin="anonymous">
 </head>
 <body>
-<style>
-    *{
-
-    }
-</style>
 <nav class="navbar navbar-expand-lg navbar-dark bg-danger">
     <div class="container-fluid">
         <a class="navbar-brand" href="#"><img src="../images/HeroStore.png" alt="" width="70"></a>
