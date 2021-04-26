@@ -106,11 +106,11 @@ class ShoppingCar
     public function makePurchase (int $userId){
         $connection = new Connection();
         $transaction = new Transactions();
-        $user = $connection->getUser($_SESSION['usuario']);
+        $user = $connection->getUser($_SESSION['user']);
         $userBalance = $user['saldo'];
         $objectBalance = new Balance();
         $purchasePrice = $this->getTotalPrice($userId);
-        $objectBalance->compra($userBalance, $purchasePrice);
+        $objectBalance->purchase($userBalance, $purchasePrice);
         $this->deleteAllFromCarrito($userId);
     }
 //public function PurchaseFromCarrito (int $productId, int $userId){

@@ -3,9 +3,9 @@ require_once "../models/ShoppingCar.php";
 require_once "../models/Connection.php";
 $shoppingCar = new ShoppingCar();
 $connection = new Connection();
-$user = $connection->getUser($_SESSION['usuario']);
+$user = $connection->getUser($_SESSION['user']);
 $userBalance = number_format($user['saldo'],2,",", ".");
-$products = $shoppingCar->getCurrentArticules($_SESSION['id']);
+$products = $shoppingCar->getCurrentProducts($_SESSION['id']);
 $totalSum = $shoppingCar->getTotalPrice($_SESSION['id']);
 $totalPrice = "$ ". number_format($totalSum,2, ",", ".");
 ?>
@@ -151,7 +151,7 @@ $totalPrice = "$ ". number_format($totalSum,2, ",", ".");
     function plusAmountProduct(productId) {
         $.ajax(
             {
-                url: '../controllers/changeAmountProductCarrito.php?product_id=' + productId + '&subOrPlus=2',
+                url: '../controllers/changeAmountProductToShoppingCar.php?product_id=' + productId + '&subOrSum=2',
                 success: function (data) {
                     $("#amountProduct" + productId).html(data);
                     changeProductPrecioTotal(productId);
@@ -163,7 +163,7 @@ $totalPrice = "$ ". number_format($totalSum,2, ",", ".");
     function subAmountProduct(productId) {
         $.ajax(
             {
-                url: '../controllers/changeAmountProductCarrito.php?product_id=' + productId + '&subOrPlus=1',
+                url: '../controllers/changeAmountProductToShoppingCar.php?product_id=' + productId + '&subOrSum=1',
                 success: function (data) {
                     $("#amountProduct" + productId).html(data);
                     changeProductPrecioTotal(productId);
@@ -175,7 +175,7 @@ $totalPrice = "$ ". number_format($totalSum,2, ",", ".");
     function changeProductPrecioTotal(productId){
         $.ajax(
             {
-                url: '../controllers/changeProductPrecioTotalCarrito.php?product_id=' + productId,
+                url: '../controllers/changeTotalPriceProductFromShoppingCar.php?product_id=' + productId,
                 success: function (data){
                     $("#precioTotal" + productId).html("$ " + data);
                 }
@@ -185,7 +185,7 @@ $totalPrice = "$ ". number_format($totalSum,2, ",", ".");
     function sumTotal(){
         $.ajax(
             {
-                url: '../controllers/sumProductsPrecioTotal.php',
+                url: '../controllers/sumTotalPriceProducts.php',
                 success: function (data){
                     $("#total").html("Total" + data )
                 }

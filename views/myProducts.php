@@ -3,12 +3,12 @@ session_start();
 require "../models/Product.php";
 require "../models/Transactions.php";
 $connection = new Connection();
-$user =$connection->getUser($_SESSION['usuario']);
+$user =$connection->getUser($_SESSION['user']);
 $userId = $user['id'];
 $product = new Product();
 $products = $product->getAllProduct();
 $transaction = new Transactions();
-$purchase = $transaction->getCurrentUserCompras($_SESSION['id']);
+$purchase = $transaction->getCurrentUserPurchases($_SESSION['id']);
 ?>
 <!doctype html>
 <html lang="en">

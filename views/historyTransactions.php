@@ -2,12 +2,12 @@
 require "../models/Transactions.php";
 session_start();
 $connection = new Connection();
-$user = $connection->getUser($_SESSION['usuario']);
+$user = $connection->getUser($_SESSION['user']);
 $userId = $user['id'];
 $userName = $user['username'];
 $transaction = new Transactions();
 if (isset($_GET['compras'])) {
-    $transactions = $transaction->getCurrentUserCompras($userId);
+    $transactions = $transaction->getCurrentUserPurchases($userId);
 } elseif (isset($_GET['depositos'])) {
     $transactions = $transaction->getCurrentUserDeposit($userId);
 } else {

@@ -2,7 +2,7 @@
 session_start();
 require "../models/Connection.php";
 $connection = new Connection();
-$user = $connection->getUser($_SESSION['usuario']);
+$user = $connection->getUser($_SESSION['user']);
 $userName = $user['username']
 ?>
 <!doctype html>
@@ -46,15 +46,15 @@ $userName = $user['username']
     <div class="col-sm-4"></div>
     <div class="col-md-4 mt-md-5">
         <h2 class="text-center">¿Cuanto desea depositar?</h2>
-        <form action="../controllers/depositoLogica.php" method="post">
+        <form action="../controllers/depositLogic.php" method="post">
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label"></label>
-                <input type="number" name="dinero" placeholder="Monto" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <input type="number" name="money" placeholder="Monto" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
 
             </div>
             <div class="mb-3">
                 <div class="form-floating">
-                    <textarea name="comentario" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                    <textarea name="commit" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
                     <label for="floatingTextarea2">Comentario</label>
                 </div>
                 <div id="emailHelp" class="form-text">Intente colocar un comentario descriptivo.</div>

@@ -2,7 +2,7 @@
 session_start();
 require "../models/Connection.php";
 $connection = new Connection();
-$user = $connection->getUser($_SESSION['usuario']);
+$user = $connection->getUser($_SESSION['user']);
 $userName = $user['username'];
 $balance = number_format($user['saldo'], 2, ',', '.');
 ?>
@@ -54,7 +54,7 @@ $balance = number_format($user['saldo'], 2, ',', '.');
                 <div class="card-body">
                     <h5 class="card-title">DEPOSITO</h5>
                     <p class="card-text">Depositar dinero a la tienda para poder realizar compras</p>
-                    <a href="deposito.php" class="btn btn-danger ">Realizar un deposito</a>
+                    <a href="deposit.php" class="btn btn-danger ">Realizar un deposito</a>
                 </div>
             </div>
         </div>

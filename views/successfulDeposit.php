@@ -2,7 +2,7 @@
 session_start();
 require "../models/Connection.php";
 $connection = new Connection();
-$user = $connection->getUser($_SESSION['usuario']);
+$user = $connection->getUser($_SESSION['user']);
 $userBalance = number_format($user['saldo'], 2, ',', '.');
 ?>
 <!doctype html>

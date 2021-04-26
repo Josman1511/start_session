@@ -2,7 +2,7 @@
 session_start();
 require "../models/Connection.php";
 $connection = new Connection();
-$user = $connection->getUser($_SESSION['usuario']);
+$user = $connection->getUser($_SESSION['user']);
 $userName = $user['username'];
 ?>
 <!doctype html>

@@ -3,7 +3,7 @@ require "../models/Product.php";
 require "../models/Balance.php";
 require "../models/Transactions.php";
 $connection = new Connection();
-$user = $connection->getUser($_SESSION['usuario']);
+$user = $connection->getUser($_SESSION['user']);
 $userBalance = $user['saldo'];
 $userId = $user['id'];
 $product = new Product;
@@ -26,4 +26,3 @@ if ($userBalance >= $currentProductPrice) {
 } else {
     header("location: ../views/bank.php");
 }
-?>

@@ -2,9 +2,9 @@
 session_start();
 require "../models/Connection.php";
 $connection = new Connection();
-$user = $connection->getUser($_SESSION['usuario']);
+$user = $connection->getUser($_SESSION['user']);
 $userName = $user['username'];
-if(!isset($_SESSION['usuario'])){
+if(!isset($_SESSION['user'])){
     header("location: ../index.php");
     die();
 }

@@ -5,7 +5,7 @@ class Balance
 {
     public function deposit(float $deposit): float{
         $connection = new Connection();
-        $user = $connection->getUser($_SESSION['usuario']);
+        $user = $connection->getUser($_SESSION['user']);
         $saldo = $user['saldo'];
         $id = $user['id'];
         $sum = $saldo + $deposit;
@@ -18,7 +18,7 @@ class Balance
     }
     public function purchase(float $currentUserSaldo, float $productPrecio): float{
         $connection = new Connection();
-        $usuario = $connection->getUser($_SESSION['usuario']);
+        $usuario = $connection->getUser($_SESSION['user']);
         $id = $usuario['id'];
         $resta = $currentUserSaldo - $productPrecio;
         $consulta = "UPDATE usuarios SET saldo = :saldo WHERE id = :id";

@@ -25,7 +25,7 @@ session_start();
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active">Usuario: <?=$_SESSION['usuario']?></a>
+                    <a class="nav-link active">Usuario: <?=$_SESSION['user']?></a>
                 </li>
 
                 <li class="nav-item">
@@ -69,7 +69,7 @@ session_start();
             <th style="font-weight: normal"><?=$produ["articulo"]?></th>
             <th style="font-weight: normal"><?=$produ['clase']?></th>
             <th style="font-weight: normal"><?=number_format($produ['precio'], 2, ',', '.'). "$" ?></th>
-            <th style="font-weight: normal"><a href="showDetails2.php?product_id=<?=$produ['id']?>">ver mas</a></th>
+            <th style="font-weight: normal"><a href="showDetails.php?product_id=<?=$produ['id']?>">ver mas</a></th>
             <?php endforeach; ?>
         </tr>
     </table>
