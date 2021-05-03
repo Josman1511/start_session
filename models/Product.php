@@ -11,7 +11,7 @@ class Product
         return $product;
     }
 
-    public function currentProduct(int $currentId): array
+    public function getCurrentProduct(int $currentId): array
     {
         $connection = new Connection();
         $query = $connection->getPDO()->prepare("SELECT clases.clase, articulos.id, articulo, precio, image, cantidad FROM articulos INNER JOIN clases ON articulos.clase_id = clases.id WHERE articulos.id = :articulos");
