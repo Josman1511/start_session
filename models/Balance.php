@@ -6,26 +6,29 @@ class Balance
     public function deposit(float $deposit): float{
         $connection = new Connection();
         $user = $connection->getUser($_SESSION['user']);
-        $saldo = $user['saldo'];
+        $saldo = $user['balance'];
         $id = $user['id'];
         $sum = $saldo + $deposit;
-        $query = "UPDATE usuarios SET saldo = :saldo WHERE id = :id";
+        $query = "UPDATE users SET balance = :balance WHERE id = :id";
         $deposit = $connection->getPDO()->prepare($query);
-        $deposit->bindParam(':saldo',$sum);
-        $deposit->bindParam(':id',$id);
+        $deposit->bindParam('balance',$sum);
+        $deposit->bindParam('id',$id);
         $deposit->execute();
         return $sum;
     }
-    public function purchase(float $currentUserSaldo, float $productPrecio): float{
+    public function makePurchase(float $currentUserBalance, float $productPrice, float $productAmount, int $productId): float{
         $connection = new Connection();
-        $usuario = $connection->getUser($_SESSION['user']);
-        $id = $usuario['id'];
-        $resta = $currentUserSaldo - $productPrecio;
-        $consulta = "UPDATE usuarios SET saldo = :saldo WHERE id = :id";
-        $compra = $connection->getPDO()->prepare($consulta);
-        $compra->bindParam('saldo', $resta);
-        $compra->bindParam('id', $id);
-        $compra->execute();
-        return $resta;
+        $product = new Product();
+        $user = $connection->getUser($_SESSION['user']);
+        $id = $user['id'];
+        $sub = $currentUserBalance - $productPrice;
+        $query = "UPDATE users SET balance = :balance WHERE id = :id";
+        $purchase = $connection->getPDO()->prepare($query);
+        $purchase->bindParam('balance', $sub);
+        $purchase->bindParam('id', $id);
+        $purchase->execute();
+        $subAmountProducts = $product->subAmountProduct($productId, $productAmount);
+        return $sub;
     }
+
 }

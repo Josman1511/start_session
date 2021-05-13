@@ -54,7 +54,7 @@ $userName = $user['username']
             </div>
             <div class="mb-3">
                 <div class="form-floating">
-                    <textarea name="commit" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+                    <textarea name="comment" class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
                     <label for="floatingTextarea2">Comentario</label>
                 </div>
                 <div id="emailHelp" class="form-text">Intente colocar un comentario descriptivo.</div>

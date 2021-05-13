@@ -4,24 +4,23 @@ require "../models/Balance.php";
 require "../models/Transactions.php";
 $connection = new Connection();
 $user = $connection->getUser($_SESSION['user']);
-$userBalance = $user['saldo'];
+$userBalance = $user['balance'];
 $userId = $user['id'];
 $product = new Product;
-$currentProduct = $product->currentProduct($_GET['product_id']);
-$currentProductPrice = $currentProduct['precio'];
-$currentProductName = $currentProduct['articulo'];
-$currentProductAmount = $currentProduct['cantidad'];
+$currentProduct = $product->getcurrentProduct($_GET['product_id']);
+$currentProductPrice = $currentProduct['price'];
+$currentProductName = $currentProduct['product'];
+$currentProductAmount = $currentProduct['amount'];
 $balance = new Balance();
 
 if ($userBalance >= $currentProductPrice) {
     $transaction = new Transactions();
     $buy = 'Compra';
-    $commit = 'Compra de ' . $currentProductName;
-    $balance = $userBalance - $currentProductPrice;
+    $comment = 'Compra de ' . $currentProductName;
+    $NewUserBalance = $userBalance - $currentProductPrice;
     $productId = $_GET['product_id'];
-    $transaction->addNewPurchase($currentProductPrice, $commit, $balance, $userId, $productId);
-    $balance->purchase($userBalance, $currentProductPrice);
-    $product->restAmountProduct($_GET['product_id'], $currentProductAmount);
+    $transaction->addNewPurchase($currentProductPrice, $comment, $NewUserBalance ,$userId, $productId);
+    $balance->makePurchase($userBalance, $currentProductPrice, $currentProductAmount, $_GET['product_id']);
     header("location: ../views/successfulPurchase.php?product_id=" . $_GET['product_id']);
 } else {
     header("location: ../views/bank.php");

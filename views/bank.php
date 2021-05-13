@@ -4,7 +4,7 @@ require "../models/Connection.php";
 $connection = new Connection();
 $user = $connection->getUser($_SESSION['user']);
 $userName = $user['username'];
-$balance = number_format($user['saldo'], 2, ',', '.');
+$balance = number_format($user['balance'], 2, ',', '.');
 ?>
 <!doctype html>
 <html lang="en">

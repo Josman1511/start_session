@@ -10,10 +10,10 @@ class Connection
 
     }
 
-    public function getUser(string $userName): array
+    public function getUser(string $username): array
     {
-        $query = $this->PDO->prepare("SELECT * FROM usuarios WHERE username= :userName");
-        $query->bindParam('userName', $userName);
+        $query = $this->PDO->prepare("SELECT * FROM users WHERE username= :username");
+        $query->bindParam('username', $username);
         $query->execute();
         $user = $query->fetchAll(PDO::FETCH_ASSOC);
         return (empty($user)) ? $user : $user[0];

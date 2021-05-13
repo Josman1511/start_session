@@ -4,7 +4,7 @@ require_once "../models/Connection.php";
 $shoppingCar = new ShoppingCar();
 $connection = new Connection();
 $user = $connection->getUser($_SESSION['user']);
-$userBalance = number_format($user['saldo'],2,",", ".");
+$userBalance = number_format($user['balance'],2,",", ".");
 $products = $shoppingCar->getCurrentProducts($_SESSION['id']);
 $totalSum = $shoppingCar->getTotalPrice($_SESSION['id']);
 $totalPrice = "$ ". number_format($totalSum,2, ",", ".");
@@ -48,7 +48,7 @@ $totalPrice = "$ ". number_format($totalSum,2, ",", ".");
                     <tr style="font-size: 20px;">
                         <th style=" font-weight: normal"> <?= $inShoppingCar['product'] ?></th>
                         <th style=" font-weight: normal" class="text-danger" >
-                            $ <?= number_format($inShoppingCar['purchase'], 2, ",", ".") ?></th>
+                            $ <?= number_format($inShoppingCar['price'], 2, ",", ".") ?></th>
                         <th>
                             <div class="btn-group" role="group" aria-label="Basic outlined example">
                                 <button type="button" class="btn btn-outline-dark"
@@ -71,7 +71,7 @@ $totalPrice = "$ ". number_format($totalSum,2, ",", ".");
                                 </button>
                             </div>
                         </th>
-                        <th id="precioTotal<?=$inShoppingCar['id']?>">$ <?= number_format($inShoppingCar['precio_total'], 2, ",", ".") ?></th>
+                        <th id="totalPrice<?=$inShoppingCar['id']?>">$ <?= number_format($inShoppingCar['total_price'], 2, ",", ".") ?></th>
                         <th>
                             <button type="submit" class="btn"
                                     onclick="deleteRow(this, <?= $inShoppingCar['id'] ?>)">
@@ -133,9 +133,9 @@ $totalPrice = "$ ". number_format($totalSum,2, ",", ".");
     function deleteRow(row, productId) {
         $.ajax(
             {
-                url: '../controllers/eliminateProductCarrito.php?product_id=' + productId,
+                url: '../controllers/eliminateProductFromShoppingCar.php?product_id=' + productId,
                 success: function (data) {
-                    if ('exito' == data) {
+                    if ('success' == data) {
                         var d = row.parentNode.parentNode.rowIndex;
                         document.getElementById("dsTable").deleteRow(d);
                         sumTotal();
@@ -177,7 +177,7 @@ $totalPrice = "$ ". number_format($totalSum,2, ",", ".");
             {
                 url: '../controllers/changeTotalPriceProductFromShoppingCar.php?product_id=' + productId,
                 success: function (data){
-                    $("#precioTotal" + productId).html("$ " + data);
+                    $("#totalPrice" + productId).html("$ " + data);
                 }
             }
         );

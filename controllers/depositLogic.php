@@ -8,12 +8,12 @@ if(isset($_POST['money']) && is_numeric($_POST['money'])){
     $currentUserId = $currentUser['id'];
 //añadiendo la transaccion a la base de datos
     $class = 'DEPOSITO';
-    $balance = $currentUser['saldo'] + $_POST['money'];
+    $balance = $currentUser['balance'] + $_POST['money'];
     $depositing = $_POST['money'];
-    $commit = $_POST['commit'];
+    $comment = $_POST['comment'];
     $productId = null;
     $transactions = new Transactions();
-    $transactions->addNewDeposit($depositing, $commit, $balance, $currentUserId, $productId);
+    $transactions->addNewDeposit($depositing, $comment, $balance, $currentUserId, $productId);
 //sumando el deposito a la cuenta
     $balance = new Balance();
     $balance->deposit($_POST['money']);

@@ -27,19 +27,44 @@ class Reactions
         return $this->getCurrentLikesOrDislike($productId, self::REACTION_DISLIKE);
     }
 
-    private function setNewLikeOrDislike(int $productId, int $userId,  int $reactionType)
+    private function setNewLikeOrDislike(int $productId, int $userId, int $reactionType)
     {
         $connection = new Connection();
-        $query = $connection->getPDO()->prepare("INSERT INTO reactions (product_id, user_id, reactionType) VALUES (:product_id, :user_id, :reactionType)");
-        $query->bindParam("product_id", $productId);
-        $query->bindParam("user_id", $userId);
-        $query->bindParam("reactionType", $reactionType);
-        $query->execute();
+        $userReaction = $this->getCurrentUserReaction($userId, $productId);
+        if (empty($userReaction)) {
+            $query = $connection->getPDO()->prepare("INSERT INTO reactions (product_id, user_id, reactionType) VALUES (:product_id, :user_id, :reactionType)");
+            $query->bindParam("product_id", $productId);
+            $query->bindParam("user_id", $userId);
+            $query->bindParam("reactionType", $reactionType);
+            $query->execute();
+        }
+        else{
+            $query = $connection->getPDO()->prepare("UPDATE reactions SET reactionType = :reactionType WHERE product_id = :product_id AND user_id = :user_id");
+            $query->bindParam('reactionType', $reactionType);
+            $query->bindParam('product_id', $productId);
+            $query->bindParam('user_id', $userId);
+            $query->execute();
+        }
     }
-    public function setNewLike(int $productId, int $userId){
+
+    public function setNewLike(int $productId, int $userId)
+    {
         return $this->setNewLikeOrDislike($productId, $userId, self::REACTION_LIKE);
     }
-    public function setNewDislike(int $productId, int $userId){
+
+    public function setNewDislike(int $productId, int $userId)
+    {
         return $this->setNewLikeOrDislike($productId, $userId, self::REACTION_DISLIKE);
+    }
+
+    public function getCurrentUserReaction(int $currentUserId, $productId): array
+    {
+        $connection = new Connection();
+        $query = $connection->getPDO()->prepare("SELECT * FROM reactions WHERE user_id = :user_id AND product_id = :product_id");
+        $query->bindParam("user_id", $currentUserId);
+        $query->bindParam('product_id', $productId);
+        $query->execute();
+        $reaction = $query->fetchAll(PDO::FETCH_ASSOC);
+        return (empty($reaction)) ? $reaction : $reaction[0];
     }
 }

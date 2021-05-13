@@ -81,9 +81,9 @@ if (isset($_GET['compras'])) {
                     as $transac) : ?>
                 </tr>
                 <tr>
-                    <th style="font-weight: normal"><?= $transac["clase"] ?></th>
-                    <th style="font-weight: normal"><?= number_format($transac['monto'], 2, ',', '.') . "$" ?></th>
-                    <th style="font-weight: normal"><?= $transac['comentario'] ?></th>
+                    <th style="font-weight: normal"><?= $transac["class"] ?></th>
+                    <th style="font-weight: normal"><?= number_format($transac['amount_money'], 2, ',', '.') . "$" ?></th>
+                    <th style="font-weight: normal"><?= $transac['comment'] ?></th>
                     <th style="font-weight: normal"><?= number_format($transac['balance'], 2, ',', '.') . "$" ?></th>
                     <?php endforeach; ?>
 

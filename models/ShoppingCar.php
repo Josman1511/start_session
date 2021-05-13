@@ -9,18 +9,18 @@ class ShoppingCar
     {
         $productClass = new Product();
         $connection = new Connection();
-        $currentProduct = $productClass->currentProduct($ProductId);
-        $productName = $currentProduct['articulo'];
-        $productPrice = $currentProduct['precio'];
+        $currentProduct = $productClass->getCurrentProduct($ProductId);
+        $productName = $currentProduct['product'];
+        $productPrice = $currentProduct['price'];
         $productAmount = 1;
-        $productTotalPrice = $currentProduct['precio'];
-        $query = "INSERT INTO carrito (product, purchase, amount, user_id, precio_total) VALUES (:product, :purchase, :amount, :user_id, :precio_total)";
+        $productTotalPrice = $currentProduct['price'];
+        $query = "INSERT INTO shopping_car (product, price, amount, user_id, total_price) VALUES (:product, :price, :amount, :user_id, :total_price)";
         $add = $connection->getPDO()->prepare($query);
         $add->bindParam('product', $productName);
-        $add->bindParam('purchase', $productPrice);
+        $add->bindParam('price', $productPrice);
         $add->bindParam('amount', $productAmount);
         $add->bindParam('user_id', $userId);
-        $add->bindParam('precio_total', $productTotalPrice);
+        $add->bindParam('total_price', $productTotalPrice);
         $add->execute();
     }
 
@@ -28,7 +28,7 @@ class ShoppingCar
     {
         $connection = new Connection();
         $query = $connection->getPDO()->prepare(
-            "SELECT * FROM carrito WHERE user_id = :user_id");
+            "SELECT * FROM shopping_car WHERE user_id = :user_id");
         $query->bindParam('user_id', $currentUserId);
         $query->execute();
         $product = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -38,7 +38,7 @@ class ShoppingCar
     public function deleteProductToShoppingCar(int $productId)
     {
         $connection = new Connection();
-        $query = $connection->getPDO()->prepare('DELETE FROM carrito WHERE carrito.id = :id');
+        $query = $connection->getPDO()->prepare('DELETE FROM shopping_car WHERE shopping_car.id = :id');
         $query->bindParam('id', $productId);
         $query->execute();
     }
@@ -46,7 +46,7 @@ class ShoppingCar
     public function getCurrentProduct(int $productId): array
     {
         $connection = new Connection();
-        $query = $connection->getPDO()->prepare('SELECT * FROM carrito WHERE id = :id');
+        $query = $connection->getPDO()->prepare('SELECT * FROM shopping_car WHERE id = :id');
         $query->bindParam('id', $productId);
         $query->execute();
         $product = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -69,10 +69,10 @@ class ShoppingCar
             $amount = $productAmount - 1;
         }
         $productTotalPrice = $productPrice * $amount;
-        $query = $connection->getPDO()->prepare('UPDATE carrito SET amount = :amount, precio_total = :precio_total WHERE id = :id');
+        $query = $connection->getPDO()->prepare('UPDATE shopping_car SET amount = :amount, total_price = :total_total WHERE id = :id');
         $query->bindParam('amount', $amount);
         $query->bindParam('id', $productId);
-        $query->bindParam('precio_total', $productTotalPrice);
+        $query->bindParam('total_price', $productTotalPrice);
         $query->execute();
     }
 
@@ -89,33 +89,26 @@ class ShoppingCar
     public function deleteAllFromCarrito(int $userId)
     {
         $connection = new Connection();
-        $query = $connection->getPDO()->prepare('DELETE FROM carrito WHERE user_id = :id');
+        $query = $connection->getPDO()->prepare('DELETE FROM shopping_car WHERE user_id = :id');
         $query->bindParam('id', $userId);
         $query->execute();
     }
 
     public function getTotalPrice(int $userId): float{
         $connection = new Connection();
-        $query = $connection->getPDO()->prepare("SELECT SUM(precio_total) AS sumPrecioTotal FROM carrito WHERE user_id = :user_id");
+        $query = $connection->getPDO()->prepare("SELECT SUM(total_price) AS sumTotalPrice FROM shopping_car WHERE user_id = :user_id");
         $query->bindParam('user_id', $userId);
         $query->execute();
         $sum = $query->fetchAll(PDO::FETCH_ASSOC);
-        $TotalPrice = $sum[0]['sumPrecioTotal'];
+        $TotalPrice = $sum[0]['sumTotalPrice'];
         return (empty($TotalPrice) ? "0" : $TotalPrice);
     }
     public function makePurchase (int $userId){
         $connection = new Connection();
-        $transaction = new Transactions();
         $user = $connection->getUser($_SESSION['user']);
-        $userBalance = $user['saldo'];
+        $userBalance = $user['balance'];
         $objectBalance = new Balance();
         $purchasePrice = $this->getTotalPrice($userId);
-        $objectBalance->purchase($userBalance, $purchasePrice);
         $this->deleteAllFromCarrito($userId);
     }
-//public function PurchaseFromCarrito (int $productId, int $userId){
-//    $product = $this->getCurrentArticules($userId);
-//    $product =
-//
-//}
 }

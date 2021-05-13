@@ -66,9 +66,9 @@ session_start();
         ?>
 
         <tr>
-            <th style="font-weight: normal"><?=$produ["articulo"]?></th>
-            <th style="font-weight: normal"><?=$produ['clase']?></th>
-            <th style="font-weight: normal"><?=number_format($produ['precio'], 2, ',', '.'). "$" ?></th>
+            <th style="font-weight: normal"><?=$produ["product"]?></th>
+            <th style="font-weight: normal"><?=$produ['class']?></th>
+            <th style="font-weight: normal"><?=number_format($produ['price'], 2, ',', '.'). "$" ?></th>
             <th style="font-weight: normal"><a href="showDetails.php?product_id=<?=$produ['id']?>">ver mas</a></th>
             <?php endforeach; ?>
         </tr>
