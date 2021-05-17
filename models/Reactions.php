@@ -32,19 +32,20 @@ class Reactions
         $connection = new Connection();
         $userReaction = $this->getCurrentUserReaction($userId, $productId);
         if (empty($userReaction)) {
-            $query = $connection->getPDO()->prepare("INSERT INTO reactions (product_id, user_id, reactionType) VALUES (:product_id, :user_id, :reactionType)");
-            $query->bindParam("product_id", $productId);
-            $query->bindParam("user_id", $userId);
-            $query->bindParam("reactionType", $reactionType);
-            $query->execute();
+            $query = "INSERT INTO reactions (product_id, user_id, reactionType) VALUES (:product_id, :user_id, :reactionType)";
+        } else {
+            if($userReaction['reactionType'] == $reactionType){
+                $query = "DELETE FROM reactions WHERE product_id = :product_id AND user_id = :user_id";
+            }
+            else{
+                $query = "UPDATE reactions SET reactionType = :reactionType WHERE product_id = :product_id AND user_id = :user_id";
+            }
         }
-        else{
-            $query = $connection->getPDO()->prepare("UPDATE reactions SET reactionType = :reactionType WHERE product_id = :product_id AND user_id = :user_id");
-            $query->bindParam('reactionType', $reactionType);
-            $query->bindParam('product_id', $productId);
-            $query->bindParam('user_id', $userId);
-            $query->execute();
-        }
+        $connecPDO = $connection->getPDO()->prepare($query);
+        $connecPDO->bindParam('reactionType', $reactionType);
+        $connecPDO->bindParam('product_id', $productId);
+        $connecPDO->bindParam('user_id', $userId);
+        $connecPDO->execute();
     }
 
     public function setNewLike(int $productId, int $userId)

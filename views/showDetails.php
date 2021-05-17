@@ -12,7 +12,8 @@ $productPrice = number_format($product['price'], 2, ',', '.');
 $reactions = new Reactions();
 $like = $reactions->getCurrentLikes($_GET['product_id']);
 $dislike = $reactions->getCurrentDislikes($_GET['product_id']);
-
+$r = $reactions->getCurrentUserReaction($_SESSION['id'], $_GET['product_id']);
+var_dump($r);
 ?>
 <!doctype html>
 <html lang="en">
