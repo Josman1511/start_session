@@ -34,10 +34,10 @@ class Reactions
         if (empty($userReaction)) {
             $query = "INSERT INTO reactions (product_id, user_id, reactionType) VALUES (:product_id, :user_id, :reactionType)";
         } else {
-            if($userReaction['reactionType'] == $reactionType){
-                $query = "DELETE FROM reactions WHERE product_id = :product_id AND user_id = :user_id";
-            }
-            else{
+
+            if ($userReaction['reactionType'] == $reactionType) {
+                $query = "DELETE FROM reactions WHERE product_id = :product_id AND user_id = :user_id AND reactionType = :reactionType";
+            } else {
                 $query = "UPDATE reactions SET reactionType = :reactionType WHERE product_id = :product_id AND user_id = :user_id";
             }
         }
