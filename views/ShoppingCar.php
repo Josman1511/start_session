@@ -101,7 +101,7 @@ $totalPrice = "$ ". number_format($totalSum,2, ",", ".");
                         <path d="M0 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V5zm3 0a2 2 0 0 1-2 2v4a2 2 0 0 1 2 2h10a2 2 0 0 1 2-2V7a2 2 0 0 1-2-2H3z"/>
                     </svg>
                 </a>
-                <a type="button" href="store.php" stFdeFyle="font-size: 20px" class="mt-md-3 btn btn-outline-secondary">Seguir
+                <a type="button" href="store.php" style="font-size: 20px" class="mt-md-3 btn btn-outline-secondary">Seguir
                     comprando
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" fill="currentColor" class="bi bi-bag-plus"
                          viewBox="0 0 16 16">
